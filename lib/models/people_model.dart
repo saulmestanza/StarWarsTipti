@@ -17,7 +17,7 @@ class PeopleModel {
   String? skinColor;
   String? eyeColor;
   String? birthYear;
-  Gender? gender;
+  String? gender;
   String? homeworld;
   List<String>? films;
   List<dynamic>? species;
@@ -47,31 +47,31 @@ class PeopleModel {
   });
 
   factory PeopleModel.fromJson(Map<String, dynamic> json) => PeopleModel(
-        name: json["name"],
-        height: json["height"],
-        mass: json["mass"],
-        hairColor: json["hair_color"],
-        skinColor: json["skin_color"],
-        eyeColor: json["eye_color"],
-        birthYear: json["birth_year"],
-        gender: genderValues.map[json["gender"]]!,
-        homeworld: json["homeworld"],
+        name: json["name"] ?? "",
+        height: json["height"] ?? "",
+        mass: json["mass"] ?? "",
+        hairColor: json["hair_color"] ?? "",
+        skinColor: json["skin_color"] ?? "",
+        eyeColor: json["eye_color"] ?? "",
+        birthYear: json["birth_year"] ?? "",
+        gender: json["gender"] ?? "",
+        homeworld: json["homeworld"] ?? "",
         films: json["films"] == null
             ? []
-            : List<String>.from(json["films"]!.map((x) => x)),
+            : List<String>.from(json["films"]?.map((x) => x)),
         species: json["species"] == null
             ? []
-            : List<dynamic>.from(json["species"]!.map((x) => x)),
+            : List<dynamic>.from(json["species"]?.map((x) => x)),
         vehicles: json["vehicles"] == null
             ? []
-            : List<String>.from(json["vehicles"]!.map((x) => x)),
+            : List<String>.from(json["vehicles"]?.map((x) => x)),
         starships: json["starships"] == null
             ? []
-            : List<String>.from(json["starships"]!.map((x) => x)),
+            : List<String>.from(json["starships"]?.map((x) => x)),
         created:
             json["created"] == null ? null : DateTime.parse(json["created"]),
         edited: json["edited"] == null ? null : DateTime.parse(json["edited"]),
-        url: json["url"],
+        url: json["url"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -82,7 +82,7 @@ class PeopleModel {
         "skin_color": skinColor,
         "eye_color": eyeColor,
         "birth_year": birthYear,
-        "gender": genderValues.reverse[gender],
+        "gender": gender,
         "homeworld": homeworld,
         "films": films == null ? [] : List<dynamic>.from(films!.map((x) => x)),
         "species":
@@ -96,21 +96,4 @@ class PeopleModel {
         "edited": edited?.toIso8601String(),
         "url": url,
       };
-}
-
-enum Gender { MALE, N_A, FEMALE }
-
-final genderValues = EnumValues(
-    {"female": Gender.FEMALE, "male": Gender.MALE, "n/a": Gender.N_A});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }
