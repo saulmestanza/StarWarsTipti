@@ -21,13 +21,14 @@ class PeopleController extends ChangeNotifier {
   List<PeopleModel> _dataList = [];
   List<PeopleModel> get dataList => _dataList;
 
-  fetchData({bool isRefresh = false}) async {
+  fetchData({bool isRefresh = false, String gender = ""}) async {
     if (!isRefresh) {
       _dataState = (_dataState == DataState.Uninitialized)
           ? DataState.Initial_Fetching
           : DataState.More_Fetching;
-    } else {
+    } else if (gender.isNotEmpty || isRefresh) {
       _currentPageNumber = 1;
+      _didLastLoad = false;
       _dataState = DataState.Refreshing;
     }
     notifyListeners();
@@ -40,14 +41,17 @@ class PeopleController extends ChangeNotifier {
         if (_dataState == DataState.Refreshing) {
           _dataList.clear();
         }
-        _dataList += peoplePaginatedModel.results!;
+        _dataList += gender.isEmpty
+            ? peoplePaginatedModel.results!
+            : peoplePaginatedModel.results!
+                .where((p) => p.gender == gender)
+                .toList();
         _didLastLoad = peoplePaginatedModel.next == null;
         _dataState = DataState.Fetched;
         _currentPageNumber++;
       }
       notifyListeners();
     } catch (e) {
-      print(e);
       _dataState = DataState.Error;
       notifyListeners();
     }

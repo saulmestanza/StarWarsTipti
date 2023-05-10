@@ -11,6 +11,8 @@ class PeopleViewWidget extends StatelessWidget {
 
   late DataState _dataState;
   late BuildContext _buildContext;
+  final _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     _dataState =
@@ -32,7 +34,7 @@ class PeopleViewWidget extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Card(
-                    elevation: 2,
+                    elevation: 10,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
@@ -64,13 +66,5 @@ class PeopleViewWidget extends StatelessWidget {
       Provider.of<PeopleController>(_buildContext, listen: false).fetchData();
     }
     return true;
-  }
-
-  _onRefresh() async {
-    if (!_isLoading) {
-      _isLoading = true;
-      Provider.of<PeopleController>(_buildContext, listen: false)
-          .fetchData(isRefresh: true);
-    }
   }
 }

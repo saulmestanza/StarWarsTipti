@@ -23,7 +23,6 @@ class _HomePageState extends State {
         ),
         centerTitle: true,
       ),
-      backgroundColor: Theme.of(context).primaryColor,
       body: ChangeNotifierProvider(
         create: (context) => PeopleController(),
         child: Consumer<PeopleController>(
