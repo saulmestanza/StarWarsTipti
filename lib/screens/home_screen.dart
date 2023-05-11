@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:star_wars/main.dart';
 import 'package:star_wars/models/gender_values.dart';
 import 'package:star_wars/provider/people_provider.dart';
 import 'package:star_wars/widgets/list_item_widget.dart';
@@ -16,6 +18,7 @@ class _HomePageState extends State with SingleTickerProviderStateMixin {
   String gender = "";
   late BuildContext providerCtx;
   int _selectedIndex = -1;
+  double x = 0, y = 0;
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: const Duration(seconds: 2),
@@ -108,19 +111,29 @@ class _HomePageState extends State with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: AnimatedBuilder(
-          animation: _controller,
-          builder: (_, child) {
-            return Transform.rotate(
-              angle: _controller.value * atan2(1, 2) - pi,
-              child: child,
+        title: StreamBuilder(
+          initialData: [],
+          stream: streamsChannel.receiveBroadcastStream("start_gyro"),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+              x = (snapshot.data! as dynamic)["x"];
+              y = (snapshot.data! as dynamic)["y"];
+            }
+            return AnimatedBuilder(
+              animation: _controller,
+              builder: (_, child) {
+                return Transform.rotate(
+                  angle: _controller.value * atan2(x, y) * pi,
+                  child: child,
+                );
+              },
+              child: Image.asset(
+                'assets/images/niteOwlsBackground.png',
+                fit: BoxFit.contain,
+                height: 60,
+              ),
             );
           },
-          child: Image.asset(
-            'assets/images/niteOwlsBackground.png',
-            fit: BoxFit.contain,
-            height: 60,
-          ),
         ),
         centerTitle: true,
       ),

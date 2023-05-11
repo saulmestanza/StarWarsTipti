@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^6.0.5
   http: ^0.13.5
-  streams_channel: ^0.3.0
+  streams_channel2: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:
