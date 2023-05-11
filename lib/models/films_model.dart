@@ -17,7 +17,7 @@ class FilmsModel {
   });
 
   factory FilmsModel.fromJson(Map<String, dynamic> json) => FilmsModel(
-        title: json["title"],
+        title: json["title"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:star_wars/models/gender_values.dart';
@@ -11,10 +12,14 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State {
+class _HomePageState extends State with SingleTickerProviderStateMixin {
   String gender = "";
   late BuildContext providerCtx;
   int _selectedIndex = -1;
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 2),
+  );
   final List<IconData> _icons = [
     Icons.male,
     Icons.female,
@@ -103,10 +108,19 @@ class _HomePageState extends State {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Image.asset(
-          'assets/images/niteOwlsBackground.png',
-          fit: BoxFit.contain,
-          height: 60,
+        title: AnimatedBuilder(
+          animation: _controller,
+          builder: (_, child) {
+            return Transform.rotate(
+              angle: _controller.value * atan2(1, 2) - pi,
+              child: child,
+            );
+          },
+          child: Image.asset(
+            'assets/images/niteOwlsBackground.png',
+            fit: BoxFit.contain,
+            height: 60,
+          ),
         ),
         centerTitle: true,
       ),

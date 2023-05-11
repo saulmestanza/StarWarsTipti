@@ -81,10 +81,13 @@ class PeopleViewWidget extends StatelessWidget {
                                 FilmController controller, Widget? _) {
                               switch (controller.dataState) {
                                 case FilmState.Uninitialized:
-                                  Future(() {
-                                    controller.fetchData(people.films!);
-                                  });
-                                  return _buildFilmWidget(controller);
+                                  if (people.films != null) {
+                                    Future(() {
+                                      controller.fetchData(people.films!);
+                                    });
+                                    return _buildFilmWidget(controller);
+                                  }
+                                  return Container();
                                 case FilmState.Initial_Fetching:
                                   return Container();
                                 case FilmState.More_Fetching:
