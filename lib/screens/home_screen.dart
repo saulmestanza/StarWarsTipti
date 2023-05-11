@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:star_wars/models/gender_values.dart';
-import 'package:star_wars/models/people_model.dart';
 import 'package:star_wars/provider/people_provider.dart';
 import 'package:star_wars/widgets/list_item_widget.dart';
 
@@ -84,10 +83,11 @@ class _HomePageState extends State {
                 .map((MapEntry map) => _buildIcon(context, map.key))
                 .toList(),
           ),
-          controller.dataState == DataState.Refreshing
+          controller.dataState == PeopleState.Refreshing
               ? _loadingWidget()
               : PeopleViewWidget(controller.dataList, gender, isLoading),
-          if (controller.dataState == DataState.More_Fetching) _loadingWidget(),
+          if (controller.dataState == PeopleState.More_Fetching)
+            _loadingWidget(),
         ],
       ),
     );
@@ -117,19 +117,19 @@ class _HomePageState extends State {
               (BuildContext context, PeopleController controller, Widget? _) {
             providerCtx = context;
             switch (controller.dataState) {
-              case DataState.Uninitialized:
+              case PeopleState.Uninitialized:
                 Future(() {
                   controller.fetchData();
                 });
                 return _buildListWidget(controller, true);
-              case DataState.Initial_Fetching:
+              case PeopleState.Initial_Fetching:
                 return Container();
-              case DataState.More_Fetching:
-              case DataState.Refreshing:
+              case PeopleState.More_Fetching:
+              case PeopleState.Refreshing:
                 return _buildListWidget(controller, true);
-              case DataState.Fetched:
-              case DataState.Error:
-              case DataState.No_More_Data:
+              case PeopleState.Fetched:
+              case PeopleState.Error:
+              case PeopleState.No_More_Data:
                 return _buildListWidget(controller, false);
             }
           },
