@@ -3,7 +3,7 @@ import 'package:streams_channel2/streams_channel2.dart';
 
 import 'screens/home_screen.dart';
 
-final StreamsChannel streamsChannel = StreamsChannel('stream_channel_devices');
+final StreamsChannel streamsChannel = StreamsChannel('stream_channel_gyro');
 
 void main() {
   runApp(const MyApp());

@@ -14,7 +14,7 @@ import UIKit
 				GeneratedPluginRegistrant.register(with: self)
 				let controller = window.rootViewController as! FlutterBinaryMessenger
 				let channel = FlutterStreamsChannel(
-								name: "stream_channel_devices", binaryMessenger: controller)
+								name: "stream_channel_gyro", binaryMessenger: controller)
 				channel.setStreamHandlerFactory({ (ar) in
 								return self.handler
 				})
